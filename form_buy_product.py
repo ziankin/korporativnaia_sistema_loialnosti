@@ -9,7 +9,7 @@ class BuyProduct(QDialog, DataBase):
     def __init__(self, login_user ,parent=None):
         super(BuyProduct, self).__init__(parent)
         self.ui = Ui_Form_shopping_master()
-        self.windowTitle('Покупка')
+        self.setWindowTitle('Покупка')
         self.user_log = login_user
         self.ui.setupUi(self)
         self.set_connect()

@@ -13,7 +13,7 @@ class MainWindow_shop(QMainWindow, DataBase):
         super(MainWindow_shop, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.windowTitle('Магазин')
+        self.setWindowTitle('Магазин')
         self.usr_log = login 
         self.set_connect() 
         self.filling_table_product()

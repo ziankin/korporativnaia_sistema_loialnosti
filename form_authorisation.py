@@ -51,9 +51,9 @@ class Dialog(QDialog, DataBase):
 
                 elif (data[0] == user_login) and (data[1] == user_password) and (data[2] == True):
                     self.get_move(1)
-            else:
-                raise TypeError
-
+                else:
+                    raise TypeError
+                
         except TypeError:
             QMessageBox.warning(QMessageBox(), 'Ошибка','Такого пользователя не существует')
 

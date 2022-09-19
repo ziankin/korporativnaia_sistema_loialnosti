@@ -16,7 +16,7 @@ class MainWindow_admin(QMainWindow, DataBase):
         super(MainWindow_admin, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.windowTitle('Панель администратора')
+        self.setWindowTitle('Панель администратора')
         self.set_connect()
         self.filling_table_product_admin()
         self.filling_table_users_admin()

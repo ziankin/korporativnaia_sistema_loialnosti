@@ -9,7 +9,7 @@ class DialogInsertProduct(QDialog, DataBase):
     def __init__(self, parent=None):
         super(DialogInsertProduct, self).__init__(parent)
         self.ui = Ui_Dialog_addProduct_master()
-        self.windowTitle('Добавление товара')
+        self.setWindowTitle('Добавление товара')
         self.ui.setupUi(self)
         self.set_connect()
         self.ui.btn_add_product.clicked.connect(self.insert_product)
