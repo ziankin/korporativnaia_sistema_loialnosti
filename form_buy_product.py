@@ -19,10 +19,14 @@ class BuyProduct(QDialog, DataBase):
     def buy_product(self): 
         try: 
             product = self.ui.lineEdit_name_product.text()
-            if product != '': 
-                self.set_data_deal(self.user_log, product)
-                QMessageBox.information(QMessageBox(), 'Покупка', 'Покупка прошла успешно')
+            if (len(product) != 0): 
+                if self.set_data_deal(self.user_log, product) == 1: 
+                    self.set_calculate_user_balance(self.user_log)
+                    QMessageBox.information(QMessageBox(), 'Покупка', 'Покупка прошла успешно')
+                else: 
+                    raise TypeError
             else:
-                QMessageBox.information(QMessageBox(), 'Покупка', 'Пожалуйста, введите название товара')
-        except Exception: 
+                raise TypeError
+            
+        except TypeError: 
             QMessageBox.warning(QMessageBox(), 'Покупка', 'Непредвиденная ошибка')

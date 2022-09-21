@@ -57,18 +57,18 @@ class DataBase():
         return data_deals
     
     def set_data_deal(self, usr_login, product_name):
-        self.cur.execute(f"INSERT INTO transact (customer_id, product_id) SELECT user_id, product_id FROM users, products WHERE user_login='{usr_login}' AND product_name = '{product_name}'")
+        self.cur.execute(f"INSERT INTO transact (customer_id, product_id, transaction_price) SELECT user_id, product_id, product_cost FROM users, products WHERE user_login='{usr_login}' AND product_name ='{product_name}'")
         self.conn.commit()
+        return self.cur.rowcount
     
     def set_data_user_balance_update(self, user_balance, user_login): 
         self.cur.execute(f"UPDATE users SET user_balance='{float(user_balance)}' WHERE user_login='{user_login}'")
         self.conn.commit()
-    
-    def set_calculate_user_balance(self, user_login): 
-        self.cur.execute(f"SELECT us.user_balance - sum(pr.product_cost) FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) INNER JOIN users us ON (us.user_id) = (tr.customer_id) WHERE (us.user_login) = '{user_login}' GROUP BY us.user_balance")
-        data = self.cur.fetchone()
-        return data 
         
+    def set_calculate_user_balance(self, usr_login): 
+        self.cur.execute(f"UPDATE users SET user_balance = bal.res FROM (SELECT us.user_balance - sum(pr.product_cost) AS res FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) INNER JOIN users us ON (us.user_id) = (tr.customer_id) GROUP BY us.user_balance) AS bal WHERE (users.user_login) ='{usr_login}'")
+        self.conn.commit()
+
     def set_current_balance(self, user_login):
         self.cur.execute(f"SELECT user_balance FROM users WHERE user_login='{user_login}'")
         data = self.cur.fetchone()

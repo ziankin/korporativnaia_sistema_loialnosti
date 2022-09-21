@@ -55,8 +55,9 @@ class MainWindow_shop(QMainWindow, DataBase):
             self.ui.label_hello_customer.setText(f"Здравствуйте, {self.usr_log} вы, еще не совершали покупок")
     
     def view_current_balance(self):
-        balance = self.set_calculate_user_balance(self.usr_log)
+        balance = self.set_current_balance(self.usr_log)
         self.ui.label_view_balance.setText(f"Текущий баланс {balance}")
+        QTimer.singleShot(10000, self.view_current_balance)
      
     def buy_product(self): 
         dialog_insert_product = BuyProduct(self.usr_log)
