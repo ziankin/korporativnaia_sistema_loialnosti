@@ -20,8 +20,8 @@ class DataBase():
         self.cur = self.conn.cursor()
 
     def set_authorisation(self, user_login, user_password):
-        data = self.cur.execute(
-            f"SELECT user_login, user_password, user_role_admin FROM users WHERE user_login='{user_login}' and user_password='{user_password}'") 
+        data = self.cur.execute(f"""SELECT user_login, user_password, user_role_admin FROM users" 
+                                "WHERE user_login='{user_login}' and user_password='{user_password}'""") 
 
         data = self.cur.fetchone()
         return data
@@ -52,12 +52,15 @@ class DataBase():
         self.conn.commit()
     
     def get_data_deal(self, usr_login): 
-        self.cur.execute(f"SELECT (us.user_login), (pr.product_name), (pr.product_cost), (tr.order_date) FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) INNER JOIN users us ON (us.user_id) = (tr.customer_id) WHERE (us.user_login) = '{usr_login}'")
+        self.cur.execute(f"""SELECT (us.user_login), (pr.product_name), (pr.product_cost), (tr.order_date) FROM products pr 
+                         INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) INNER JOIN users us ON (us.user_id) = (tr.customer_id) 
+                         WHERE (us.user_login) = '{usr_login}'""")
         data_deals = self.cur.fetchall()
         return data_deals
     
     def set_data_deal(self, usr_login, product_name):
-        self.cur.execute(f"INSERT INTO transact (customer_id, product_id, transaction_price) SELECT user_id, product_id, product_cost FROM users, products WHERE user_login='{usr_login}' AND product_name ='{product_name}'")
+        self.cur.execute(f"""INSERT INTO transact (customer_id, product_id, transaction_price) SELECT user_id, product_id, product_cost 
+                         FROM users, products WHERE user_login='{usr_login}' AND product_name ='{product_name}'""")
         self.conn.commit()
         return self.cur.rowcount
     
@@ -66,7 +69,10 @@ class DataBase():
         self.conn.commit()
         
     def set_calculate_user_balance(self, usr_login): 
-        self.cur.execute(f"UPDATE users SET user_balance = bal.res FROM (SELECT us.user_balance - sum(pr.product_cost) AS res FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) INNER JOIN users us ON (us.user_id) = (tr.customer_id) GROUP BY us.user_balance) AS bal WHERE (users.user_login) ='{usr_login}'")
+        self.cur.execute(f"""UPDATE users SET user_balance = bal.res FROM (SELECT us.user_balance - sum(pr.product_cost) 
+                         AS res FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) 
+                         INNER JOIN users us ON (us.user_id) = (tr.customer_id) GROUP BY us.user_balance) 
+                         AS bal WHERE (users.user_login) ='{usr_login}'""")
         self.conn.commit()
 
     def set_current_balance(self, user_login):
