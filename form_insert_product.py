@@ -13,10 +13,13 @@ class DialogInsertProduct(QDialog, DataBase):
         self.ui.setupUi(self)
         self.set_connect()
         self.ui.btn_add_product.clicked.connect(self.insert_product)
-        validator_cost = QDoubleValidator
-        self.ui.le_product_cost.setValidator(validator_cost)
+        self.ui.le_product_cost.setValidator(QDoubleValidator())
     
     def insert_product(self): 
+        '''
+        Метод добавления товара. Ссылается на метод set_new_data_product.
+        '''    
+         
         try: 
             product_name = self.ui.le_product_name.text()
             product_cost = self.ui.le_product_cost.text()
@@ -26,5 +29,5 @@ class DialogInsertProduct(QDialog, DataBase):
             else: 
                 QMessageBox.information(QMessageBox(), 'Добавление', 'Одно из полей не заполненно')
         except Exception:
-             QMessageBox.warning(QMessageBox(), 'Добавление', 'Непредвиденная ошибка')
+             QMessageBox.warning(QMessageBox(), 'Добавление', 'Непредвиденная ошибка. Возможно, запись не уникальна')
         

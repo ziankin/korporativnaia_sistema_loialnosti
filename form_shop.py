@@ -24,8 +24,12 @@ class MainWindow_shop(QMainWindow, DataBase):
         self.ui.btn_goto_shop.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_shop))
         self.ui.btn_got_account.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_account))
         self.ui.btn_buy_product.clicked.connect(self.buy_product)
-
+    
     def filling_table_product(self):
+        '''
+        Заполнение таблицы product. Каждые 10сек обновление данных. 
+        '''
+        
         products = self.get_data_product()
         products_rows = len(products)
         products_columns = len(products[0])
@@ -39,6 +43,9 @@ class MainWindow_shop(QMainWindow, DataBase):
         QTimer.singleShot(10000, self.filling_table_product)
     
     def filling_table_order(self): 
+        '''
+        Заполнение таблицы transact. Каждые 10сек обновление данных. 
+        '''
         deals = self.get_data_deal(self.usr_log)
         if len(deals) != 0: 
             deals_rows = len(deals)
@@ -55,11 +62,18 @@ class MainWindow_shop(QMainWindow, DataBase):
             self.ui.label_hello_customer.setText(f"Здравствуйте, {self.usr_log} вы, еще не совершали покупок")
     
     def view_current_balance(self):
+        '''
+        Заполняет label актуальным балансом. Обновление каждые 10сек
+        '''
+        
         balance = self.set_current_balance(self.usr_log)
         self.ui.label_view_balance.setText(f"Текущий баланс {balance}")
         QTimer.singleShot(10000, self.view_current_balance)
      
     def buy_product(self): 
+        '''
+        Создает объект класса BuyProduct. Актуализация данных 
+        '''
         dialog_insert_product = BuyProduct(self.usr_log)
         dialog_insert_product.show()
         dialog_insert_product.exec_()

@@ -13,14 +13,20 @@ class DialogRemoveProduct(QDialog, DataBase):
         self.setWindowTitle('Удание товара')
         self.set_connect()
         self.ui.btn_remove_product.clicked.connect(self.remove_product)
-        validator_id = QDoubleValidator
-        self.ui.le_product_id_for_delete.setValidator(validator_id)
+        self.ui.le_product_id_for_delete.setValidator(QDoubleValidator())
          
     def remove_product(self): 
+        '''
+        Метод удаления товара. Ссылается на метод remove_data_product.
+        '''  
+         
         try: 
             product_id = self.ui.le_product_id_for_delete.text()
             product_name = self.ui.le_product_name_for_delete.text()
-            self.remove_data_product(product_id, product_name)
-            QMessageBox.information(QMessageBox(), 'Удаление', 'Удаление прошло успешно')
+            data = self.remove_data_product(product_id, product_name)
+            if data == 1:  
+                QMessageBox.information(QMessageBox(), 'Удаление', 'Удаление прошло успешно')
+            else:
+                raise
         except Exception: 
-            QMessageBox.warning(QMessageBox(), 'Удаление', 'Непредвиденная ошибка')
+            QMessageBox.warning(QMessageBox(), 'Удаление', 'Непредвиденная ошибка\nОшибка возникает: \nСсылка на товар который находится в транзакции\nНе вверный ввод\nНе все поля заполненны')

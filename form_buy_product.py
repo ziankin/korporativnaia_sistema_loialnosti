@@ -17,6 +17,10 @@ class BuyProduct(QDialog, DataBase):
 
 
     def buy_product(self): 
+        '''
+        Метод покупки товара. Ссылается на метод set_data_deal, если тот вернул результат 1,
+        просходит вызов метода set_calculate_user_balance. 
+        '''     
         try: 
             product = self.ui.lineEdit_name_product.text()
             if (len(product) != 0): 

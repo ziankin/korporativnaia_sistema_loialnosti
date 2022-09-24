@@ -29,6 +29,11 @@ class MainWindow_admin(QMainWindow, DataBase):
         self.ui.tablewidget_manage_users.setHorizontalHeaderLabels(['id пользователя', 'Логин', 'Пароль','Администратор','Баланс'])
       
     def filling_table_product_admin(self): 
+        '''
+        Заполнение таблицы product для admin.
+        Каждые 10сек просиходит обновление данных. 
+        '''
+        
         products = self.get_data_product()
         products_rows = len(products)
         products_columns = len(products[0])
@@ -42,6 +47,10 @@ class MainWindow_admin(QMainWindow, DataBase):
         QTimer.singleShot(10000, self.filling_table_product_admin)
     
     def filling_table_users_admin(self): 
+        '''
+        Заполнение таблицы users для admin.
+        Каждые 10сек просиходит обновление данных. 
+        '''
         users = self.get_data_users()
         users_rows = len(users)
         users_columns = len(users[0])
@@ -54,19 +63,31 @@ class MainWindow_admin(QMainWindow, DataBase):
         
         QTimer.singleShot(10000, self.filling_table_users_admin)
 
-    def calling_master_add(self): 
+    def calling_master_add(self):
+        '''
+        Вызов мастера добавления товаров
+        '''
+        
         dialog_insert_product = DialogInsertProduct()
         dialog_insert_product.show()
         dialog_insert_product.exec_()
         self.filling_table_product_admin()
         
     def calling_remove_master(self): 
+        '''
+        Вызов мастера удаления товаров
+        '''
+        
         dialog_remove_product = DialogRemoveProduct()
         dialog_remove_product.show()
         dialog_remove_product.exec_()
         self.filling_table_product_admin()
     
     def calling_update_balance_master(self): 
+        '''
+        Вызов мастера обновления товаров
+        '''
+        
         dialog_update_balance = DialogUpdateBalanceUser()
         dialog_update_balance.show()
         dialog_update_balance.exec_()
