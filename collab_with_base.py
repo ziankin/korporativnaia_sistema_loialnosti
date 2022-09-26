@@ -18,7 +18,7 @@ class DataBase():
 
         self.cur = self.conn.cursor()
         
-    def set_authorisation(self, user_login, user_password):
+    def set_authorisation(self, user_login: str, user_password: str):
         '''
         Служит для авторизации пользователя. Выполняет SQL запрос на выборку.
         
@@ -36,7 +36,7 @@ class DataBase():
         data = self.cur.fetchone()
         return data
     
-    def set_registration(self, user_login, user_password):
+    def set_registration(self, user_login: str, user_password: str):
         '''
         Служит для регистрации пользователя. Выполняет SQL запрос на выборку.
         Если результат выборки вернул результат None выполняется SQL запрос на добавление записи.
@@ -78,7 +78,7 @@ class DataBase():
         data_product = self.cur.fetchall()
         return data_product 
     
-    def set_new_data_product(self, product_name, product_cost): 
+    def set_new_data_product(self, product_name: str, product_cost: str): 
         '''
         Служит для добавления записи в таблицу products. Выполняет SQL запрос на добавление
         
@@ -90,7 +90,7 @@ class DataBase():
         self.cur.execute(f"INSERT INTO products (product_name, product_cost) values ('{product_name}','{product_cost}')")
         self.conn.commit()
     
-    def remove_data_product(self, product_id, product_name): 
+    def remove_data_product(self, product_id: int , product_name: str): 
         '''
         Служит для удаления записи из таблицы products. Выполняет SQL запрос на удаление
         
@@ -105,7 +105,7 @@ class DataBase():
         self.conn.commit()
         return self.cur.rowcount
     
-    def get_data_deal(self, usr_login): 
+    def get_data_deal(self, usr_login: str): 
         '''
         Служит для выборки из нескольких таблиц для заполнения таблицы (личный кабинет) в панели пользователя.
         Выполняет SQL запрос на выборку.
@@ -122,7 +122,7 @@ class DataBase():
         data_deals = self.cur.fetchall()
         return data_deals
     
-    def set_data_deal(self, usr_login, product_name):
+    def set_data_deal(self, usr_login: str, product_name: str):
         '''
         Служит для добавление записи в таблицу transact. Выполняет SQL запрос на добавление
         
@@ -139,7 +139,7 @@ class DataBase():
         self.conn.commit()
         return self.cur.rowcount
     
-    def set_data_user_balance_update(self, user_balance, user_login): 
+    def set_data_user_balance_update(self, user_balance: str, user_login: str): 
         '''
         Служит для обновления записи в таблице users. Выполняет SQL запрос на обновление
         
@@ -154,7 +154,7 @@ class DataBase():
         self.conn.commit()
         return self.cur.rowcount
         
-    def set_calculate_user_balance(self, usr_login): 
+    def set_calculate_user_balance(self, usr_login: str): 
         '''
         Служит для обновления записи в таблице users. Выполняет SQL запрос на обновление
         
@@ -172,7 +172,7 @@ class DataBase():
                             WHERE user_login = '{usr_login}'""")
         self.conn.commit()
 
-    def set_current_balance(self, user_login):
+    def set_current_balance(self, user_login: str):
         '''
         Служит для выборки user_balance из таблицы users. Выполняет SQL запрос на выборку
         
