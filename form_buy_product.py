@@ -25,12 +25,11 @@ class BuyProduct(QDialog, DataBase):
             product = self.ui.lineEdit_name_product.text()
             if (len(product) != 0): 
                 if self.set_data_deal(self.user_log, product) == 1: 
-                    self.set_calculate_user_balance(self.user_log)
+                    self.set_calculate_user_balance(self.user_log, product)
                     QMessageBox.information(QMessageBox(), 'Покупка', 'Покупка прошла успешно')
                 else: 
-                    raise TypeError
+                    pass 
             else:
-                raise TypeError
-            
-        except TypeError: 
-            QMessageBox.warning(QMessageBox(), 'Покупка', 'Непредвиденная ошибка')
+                raise
+        except: 
+            QMessageBox.warning(QMessageBox(), 'Покупка', 'Непредвиденная ошибка.\nВозможно у вас недостаточный баланс')

@@ -154,22 +154,20 @@ class DataBase():
         self.conn.commit()
         return self.cur.rowcount
         
-    def set_calculate_user_balance(self, usr_login: str): 
+    def set_calculate_user_balance(self, usr_login: str, product_name: str): 
         '''
         Служит для обновления записи в таблице users. Выполняет SQL запрос на обновление
         
         param:
              - user_login: str
+             - product_name: str 
         '''    
-        
-        self.cur.execute(f"""UPDATE 
-	                            users 
-                            SET 
-	                            user_balance = (SELECT us.user_balance - pr.product_cost
-					            FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) 
-					            INNER JOIN users us ON (us.user_id) = (tr.customer_id) WHERE us.user_login = '{usr_login}' 
-                                GROUP BY us.user_balance, pr.product_cost)
-                            WHERE user_login = '{usr_login}'""")
+        # ошибка возникает когда покупаешь разные товара для одного пользователя 
+        self.cur.execute(f"""UPDATE users 
+                         SET user_balance = (SELECT us.user_balance - pr.product_cost 
+                         FROM products pr INNER JOIN transact tr ON (pr.product_id) = (tr.product_id) 
+                         INNER JOIN users us ON (us.user_id) = (tr.customer_id) WHERE us.user_login = '{usr_login}' AND pr.product_name = '{product_name}'
+                         GROUP BY us.user_balance, pr.product_cost) WHERE user_login = '{usr_login}'""")
         self.conn.commit()
 
     def set_current_balance(self, user_login: str):
